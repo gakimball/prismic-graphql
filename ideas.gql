@@ -1,0 +1,69 @@
+type QueryPredicate {
+  at: [String, String | [String]]
+  not: [String, String]
+  any: [String, String]
+  in: [String, String]
+  fulltext: [String, String]
+  has: String
+  missing: String
+  similar: [String, Int]
+  near: [String, Float, Float, Float]
+  lt: [String, Int]
+  gt: [String, Int]
+  inRange: [String, Int, Int]
+}
+
+type QueryOptions {
+  after: String
+  lang: String
+  orderings: String
+  page: Int
+  pageSize: Int
+  ref: String
+}
+
+input Query {
+  predicates: [QueryPredicate]
+  options: QueryOptions
+}
+
+type AlternateLanguage {
+  id: String!
+  uid: String
+  type: String!
+  lang: String!
+}
+
+interface Document {
+  id: String!
+  uid: String
+  type: String!
+  href: String!
+  tags: [String!]!
+  first_publication_date: String!
+  last_publication_date: String!
+  slugs: [String!]!
+  linked_documents: [String!]!
+  lang: String!
+  alternateLanguages: [AlternateLanguage!]!
+}
+
+type Prismic {
+  getSingle(type: )
+}
+
+query Thing($query: Query) {
+  home: getSingle(type: "home_page", query: $query) {
+    data {
+      page_title
+    }
+  }
+
+  article: getByUid(type: "article", uid: $uid) {
+    data {
+      title
+    }
+  }
+
+  
+}
